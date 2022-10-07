@@ -1,0 +1,8 @@
+*.pyc
+*.bak
+*.env
+*.log
+.vscode
+twitter_env
+db.sqlite3
+__pycache__/
