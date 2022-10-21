@@ -4,5 +4,5 @@ from . import models
 # Cal_event
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.User
+        model = models.TwitterUser
         fields = ["id", "name", "username"]
