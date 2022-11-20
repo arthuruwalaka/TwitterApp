@@ -6,15 +6,16 @@ from users.authorization import check_token_still_valid
 from users.models import TwitterUser
 
 
-def twitter_login_required(function):
-    @wraps(function)
-    def wrap(request, *args, **kwargs):
-        twitter_user = TwitterUser.objects.filter(user=request.user).first()
-        info = check_token_still_valid(twitter_user)
-        if info is None:
-            logout(request)
-            return HttpResponseRedirect(reverse("twitter_login"))
-        else:
-            return function(request, *args, **kwargs)
-
-    return wrap
+def twitter_login_required(request):
+    # @wraps(function)
+    # def wrap(request, *args, **kwargs):
+    twitter_user = TwitterUser.objects.filter(user=request.user).first()
+    info = check_token_still_valid(twitter_user)
+    if info is None:
+        logout(request)
+        return False
+        # return HttpResponseRedirect(reverse("twitter_login"))
+    else:
+        return True
+        # return function(request, *args, **kwargs)
+    # return wrap

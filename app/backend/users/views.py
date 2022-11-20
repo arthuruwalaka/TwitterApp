@@ -1,3 +1,4 @@
+import requests
 import tweepy
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -47,19 +48,22 @@ load_dotenv()
 #         return Response(serializer.data)
 
 
+@api_view(["Get"])
 def twitter_login(request):
     twitter_api = TwitterAPI()
     url, oauth_token, oauth_token_secret = twitter_api.twitter_login()
+    print(oauth_token, "yyyyyyyyyyyyyyyyyy", url)
+
     if url is None or url == "":
-        messages.add_message(
-            request, messages.ERROR, "Unable to login. Please try again."
+        print("returneded nonee")
+        return Response(
+            data={"boolean": False, "message": "Unable to login. Please try again."}
         )
-        return render(request, "authorization/error_page.html")
     else:
         twitter_auth_token = TwitterAuthToken.objects.filter(
             oauth_token=oauth_token
         ).first()
-        if twitter_auth_token is None:
+        if twitter_auth_token is None or twitter_auth_token.oauth_token != oauth_token:
             twitter_auth_token = TwitterAuthToken(
                 oauth_token=oauth_token, oauth_token_secret=oauth_token_secret
             )
@@ -67,20 +71,30 @@ def twitter_login(request):
         else:
             twitter_auth_token.oauth_token_secret = oauth_token_secret
             twitter_auth_token.save()
-        return redirect(url)
-
-
-def twitter_callback(request):
-    if "denied" in request.GET:
-        messages.add_message(
-            request,
-            messages.ERROR,
-            "Unable to login or login canceled. Please try again.",
+        return Response(
+            data={
+                "boolean": True,
+                "message": "Successfully got auth token .",
+                "url": url,
+                "token": oauth_token,
+            }
         )
-        return render(request, "authorization/error_page.html")
+
+
+@api_view(["Get", "Post"])
+def callback_verifier(request):
+    if "denied" in request.GET:
+        print("denied>>>>")
+        return Response(
+            data={
+                "boolean": False,
+                "message": "Unable to login or login cancelled. Please try again.",
+            }
+        )
     twitter_api = TwitterAPI()
     oauth_verifier = request.GET.get("oauth_verifier")
     oauth_token = request.GET.get("oauth_token")
+    print(oauth_token, "llllllllllllllllll")
     twitter_auth_token = TwitterAuthToken.objects.filter(
         oauth_token=oauth_token
     ).first()
@@ -95,6 +109,7 @@ def twitter_callback(request):
             # Create user
             info = twitter_api.get_me(access_token, access_token_secret)
             if info is not None:
+                print("user created")
                 twitter_user_new = TwitterUser(
                     id=info[0]["id"],
                     username=info[0]["username"],
@@ -105,37 +120,63 @@ def twitter_callback(request):
                 user, twitter_user = create_update_user_from_twitter(twitter_user_new)
                 if user is not None:
                     login(request, user)
-                    return redirect("index")
+                    userId, username = twitter_user_new.id, twitter_user_new.username
+                    return Response(
+                        data={
+                            "boolean": True,
+                            "message": "Successful Login",
+                            "id": userId,
+                            "username": username,
+                        }
+                    )
             else:
-                messages.add_message(
-                    request,
-                    messages.ERROR,
-                    "Unable to get profile details. Please try again.",
+                return Response(
+                    data={
+                        "boolean": False,
+                        "message": "Unable to get profile details. Please try again.",
+                    }
                 )
-                return render(request, "authorization/error_page.html")
         else:
-            messages.add_message(
-                request, messages.ERROR, "Unable to get access token. Please try again."
+            return Response(
+                data={
+                    "boolean": False,
+                    "message": "Unable to get access token. Please try again.",
+                }
             )
-            return render(request, "authorization/error_page.html")
     else:
-        messages.add_message(
-            request,
-            messages.ERROR,
-            "Unable to retrieve access token. Please try again.",
+        return Response(
+            data={
+                "boolean": False,
+                "message": "Unable to retrieve access token. Please try again.",
+            }
         )
-        return render(request, "authorization/error_page.html")
 
 
-@login_required
-@twitter_login_required
+# @login_required
+# @twitter_login_required
+@api_view(["Get"])
 def index(request):
-    return render(request, "authorization/home.html")
+    userId = request.GET.get("id")
+    user = TwitterUser.objects.filter(id=userId).first()
+    print(request, "cajciwcijn", user)
+
+    if request.user.is_authenticated and twitter_login_required(request):
+        return Response(data={"boolean": True})
+
+    else:
+        return Response(data={"boolean": False})
 
 
-@login_required
+@api_view(["Get"])
+def home(request):
+    data = TwitterUser.objects.all().first()
+    serializer = UserSerializer(data)
+    return Response(serializer.data)
+
+
+# @login_required
 def twitter_logout(request):
-    print(request, "kjnsvsbuobvsoubvsdoubvwoud")
-    logout(request)
-    print("i came herererere")
-    return redirect("index")
+    if request.user.is_authenticated:
+        logout(request)
+    """ fully implement logout """
+    # return redirect("home")
