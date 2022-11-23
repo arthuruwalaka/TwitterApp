@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -12,7 +13,7 @@ module.exports = {
 	// Where webpack outputs the assets and bundles
 	output: {
 		path: paths.build,
-		filename: "[name].bundle.js",
+		filename: "bundle.[hash].js",
 		publicPath: "/",
 	},
 
@@ -40,7 +41,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: "webpack Boilerplate",
 			favicon: paths.public + "/favicon.ico",
-			template: paths.src + "/template.html", // template file
+			template: paths.public + "/index.html", // template file
+			manifest: "./public/manifest.json",
 			filename: "index.html", // output file
 		}),
 	],

@@ -8,9 +8,22 @@ import Callback from "./Components/Callback/callback";
 import Home from "./Components/home/home";
 import "./App.css";
 import axios from "axios";
+let cookies = new Cookies();
+let x = "2239624038";
+let loggedIn;
+if (x) {
+	loggedIn = await axios({
+		method: "get",
+		url: "/users",
+		params: { id: x },
+	}).then((res) => {
+		console.log("requesr");
+	});
+} else {
+	console.log("no x");
+}
 
-const authenticated = await this.isAuthenticated();
-console.log(authenticated);
+console.log(loggedIn, "logged  in as");
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -41,7 +54,7 @@ class App extends Component {
 	// console.log("yh", x);
 	// return this.cookies.get("id");
 	render() {
-		console.log("bciuucnic", this.isAuthenticated());
+		// console.log("bciuucnic", this.isAuthenticated());
 		return (
 			<div>
 				<HistoryRouter history={history}>
@@ -50,7 +63,7 @@ class App extends Component {
 						<Route path="/authenticate" element={<Authenticate />} />
 						<Route path="/users/twitter_callback" element={<Callback />} />
 						{/* <Route path="/" element={() => (false ? <LoginComponent /> : <LoginComponent />)} /> */}
-						<Route path="/" element={this.isAuthenticated() ? <Home /> : <LoginComponent />} />
+						<Route path="/" element={true ? <Home /> : <LoginComponent />} />
 					</Routes>
 				</HistoryRouter>
 			</div>

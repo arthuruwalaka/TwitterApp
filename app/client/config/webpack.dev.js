@@ -1,5 +1,7 @@
-const { merge } = require("webpack-merge");
+const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const ErrorOverlayPlugin = require("error-overlay-webpack-plugin");
 
+const { merge } = require("webpack-merge");
 const common = require("./webpack.common");
 
 module.exports = merge(common, {
@@ -7,7 +9,7 @@ module.exports = merge(common, {
 	mode: "development",
 
 	// Control how source maps are generated
-	devtool: "inline-source-map",
+	devtool: "cheap-module-source-map",
 
 	// Spin up a server for quick development
 	devServer: {
@@ -16,8 +18,19 @@ module.exports = merge(common, {
 		compress: true,
 		hot: true,
 		port: 3000,
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+		},
+		proxy: {
+			"/api": {
+				target: "http://[::1]:9000",
+				pathRewrite: { "^/api": "" },
+				secure: false,
+				changeOrigin: true,
+			},
+		},
 	},
-
+	target: "web",
 	module: {
 		rules: [
 			// Styles: Inject CSS into the head with source maps
@@ -38,4 +51,6 @@ module.exports = merge(common, {
 			},
 		],
 	},
+
+	plugins: [new ReactRefreshPlugin(), new ErrorOverlayPlugin()],
 });
