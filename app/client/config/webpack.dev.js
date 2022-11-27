@@ -1,5 +1,7 @@
 const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const autoprefixer = require("autoprefixer");
 const ErrorOverlayPlugin = require("error-overlay-webpack-plugin");
+// const BundleTracker = require("webpack-bundle-tracker");
 
 const { merge } = require("webpack-merge");
 const common = require("./webpack.common");
@@ -12,18 +14,23 @@ module.exports = merge(common, {
 	devtool: "cheap-module-source-map",
 
 	// Spin up a server for quick development
+	// entry: [
+	// 	require.resolve("webpack-dev-server/client") + "?http://localhost:3000",
+	// 	require.resolve("webpack/hot/dev-server"),
+	// ],
 	devServer: {
 		historyApiFallback: true,
 		open: true,
 		compress: true,
 		hot: true,
 		port: 3000,
+		allowedHosts: "auto",
 		headers: {
 			"Access-Control-Allow-Origin": "*",
 		},
 		proxy: {
 			"/api": {
-				target: "http://[::1]:9000",
+				target: "http://127.0.0.1:9000",
 				pathRewrite: { "^/api": "" },
 				secure: false,
 				changeOrigin: true,
@@ -52,5 +59,9 @@ module.exports = merge(common, {
 		],
 	},
 
-	plugins: [new ReactRefreshPlugin(), new ErrorOverlayPlugin()],
+	plugins: [
+		new ReactRefreshPlugin(),
+		new ErrorOverlayPlugin(),
+		// new BundleTracker({ path: paths.statsRoot, filename: "webpack-stats.dev.json" }),
+	],
 });

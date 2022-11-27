@@ -1,4 +1,7 @@
 const path = require("path");
+const fs = require("fs");
+const appDirectory = fs.realpathSync(process.cwd());
+const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 
 module.exports = {
 	// Source files
@@ -9,4 +12,8 @@ module.exports = {
 
 	// Static files that get copied to build folder
 	public: path.resolve(__dirname, "../public"),
+
+	statsRoot: resolveApp("../"),
+
+	backend: path.resolve(__dirname, "../../"),
 };

@@ -1,14 +1,20 @@
 const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const BundleTracker = require("webpack-bundle-tracker");
 
 // const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const paths = require("./paths");
-
+const publicPath = "http://localhost:3000/";
+const publicUrl = "http://localhost:3000/";
 module.exports = {
 	// Where webpack looks to start building the bundle
-	entry: [paths.src + "/index.js"],
+	entry: [
+		paths.src + "/index.js",
+		require.resolve("webpack-dev-server/client") + "?http://localhost:3000",
+		require.resolve("webpack/hot/dev-server"),
+	],
 
 	// Where webpack outputs the assets and bundles
 	output: {
@@ -45,6 +51,7 @@ module.exports = {
 			manifest: "./public/manifest.json",
 			filename: "index.html", // output file
 		}),
+		new BundleTracker({ path: paths.backend, filename: "webpack-stats.dev.json" }),
 	],
 
 	// Determine how modules within the project are treated

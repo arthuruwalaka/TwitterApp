@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "users",
+    "webpack_loader",
 ]
 
 MIDDLEWARE = [
@@ -56,10 +58,19 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = "twitter_stat.urls"
 
+WEBPACK_LOADER = {
+    "DEFAULT": {
+        "BUNDLE_DIR_NAME": "bundles/",
+        "STATS_FILE": os.path.join(BASE_DIR, "webpack-stats.dev.json"),
+    }
+}
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            os.path.join(BASE_DIR, "templates"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
