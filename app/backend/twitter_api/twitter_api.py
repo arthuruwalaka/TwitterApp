@@ -43,7 +43,6 @@ class TwitterAPI:
             )
             info = client.get_me(
                 user_auth=True,
-                expansions="pinned_tweet_id",
                 user_fields=["profile_image_url"],
             )
             return info

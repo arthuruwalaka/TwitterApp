@@ -10,42 +10,31 @@ class Authenticate extends Component {
 		this.getCallBack = this.getCallBack.bind(this);
 	}
 	async componentDidMount() {
-		try {
-			await axios({
-				method: "get",
-				url: "/users/twitter_login",
-			}).then((res) => {
+		await axios({
+			method: "get",
+			url: "/users/twitter_login/",
+		})
+			.then((res) => {
 				if (res.data.boolean) {
 					console.log("data fetched authenticate");
 					this.getCallBack(res.data.url);
 				} else {
 					//replace with toast
 					console.log("unable to login , authenticate");
+					console.log(res.data);
 					history.push("/login");
 				}
-			});
-		} catch (error) {
-			console.log(error);
-		}
+			})
+			.catch((err) => console.log(err));
 	}
 
 	getCallBack(url) {
 		history.push(url);
 	}
-	goHome() {
-		console.log("straight home", this.state.loggedInAs);
-		history.push("/home", {
-			loggedInAs: this.state.loggedInAs,
-		});
-	}
 
 	render() {
 		// console.log("rednder");
-		return (
-			<div>
-				<img src="http://placekitten.com/g/200/300"></img>
-			</div>
-		);
+		return <div>authenticate</div>;
 	}
 }
 

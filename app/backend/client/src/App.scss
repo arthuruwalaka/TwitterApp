@@ -1,0 +1,29 @@
+@import "~bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap'); 
+
+@font-face {
+    font-family: "myfont";
+    src: url("./fonts/chirp-regular-web.woff") format('woff');
+    font-weight: lighter;
+  }
+  
+  @font-face {
+    font-family: "myfont";
+    src: url("./fonts/chirp-bold-web.woff") format('woff');
+    font-weight: bold;
+  }
+  
+  @font-face {
+    font-family: "myfont";
+    src: url("./fonts/chirp-medium-web.woff") format('woff');
+    font-weight:normal;
+    
+  }
+  
+  @font-face {
+    font-family: "myfont";
+    src: url("./fonts/chirp-heavy-web.woff") format('woff');
+    font-weight: bolder;
+  }
+
+html, body {margin:0;padding:0;height:100%;}

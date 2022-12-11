@@ -3,18 +3,20 @@ import tweepy
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .user_serializers import UserSerializer
+from .user_serializers import FollowerSerializer, FollowingSerializer, UserSerializer
 
 from django.http import JsonResponse
+from django.http import HttpResponseBadRequest
 
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .decorators import twitter_login_required
-from .models import TwitterAuthToken, TwitterUser
+from .models import TwitterAuthToken, TwitterUser, TwitterFollowers
 from .authorization import create_update_user_from_twitter, check_token_still_valid
 from twitter_api.twitter_api import TwitterAPI
+from .userhelpers import *
 
 
 from dotenv import load_dotenv
@@ -26,26 +28,14 @@ import os
 load_dotenv()
 
 
-# @api_view(["GET", "POST"])
-# def open_path(request):
-#     """
-#     handles paths courses/
-#     adds a course and gets a list of courses
-#     """
-#     screen_name = "talktoEM_"
-#     if request.method == "GET":
-#         client = tweepy.Client(os.getenv("BEARER_TOKEN"))
-#         user = client.get_user(username=screen_name)
-#         # print(user, "000000000000000000")
-#         ID = user.data.id
-#         # print(user, ID, "000000000000000000")
-#         # followers = client.get_users_followers(id=ID)
-#         # print(followers)
-#         # with open("../../out.txt", "w") as f:
-#         #     print(followers, file=f)
-#         print(user, "000000000000000000")
-#         serializer = UserSerializer(user.data)
-#         return Response(serializer.data)
+# def get_client():
+#     try:
+#         bearer = os.getenv("BEARER_TOKEN")
+#         client = tweepy.Client(bearer)
+#         return client
+#     except Exception as e:
+#         print(e)
+#         return None
 
 
 @api_view(["Get"])
@@ -116,6 +106,7 @@ def callback_verifier(request):
                     name=info[0]["name"],
                     profile_image_url=info[0]["profile_image_url"],
                 )
+                print(info[0]["profile_image_url"], "profile imagegeeeeee")
                 twitter_user_new.twitter_oauth_token = twitter_auth_token
                 user, twitter_user = create_update_user_from_twitter(twitter_user_new)
                 if user is not None:
@@ -157,20 +148,50 @@ def callback_verifier(request):
 @api_view(["Get"])
 def index(request):
     userId = request.GET.get("id")
-    user = TwitterUser.objects.filter(id=userId).first()
-    print(request, "cajciwcijn", user)
+    user = TwitterUser.objects.get(id=userId)
+    username = user.username
+    name = user.name
+    image = user.profile_image_url
+    print(image, "ncncisdnic")
+    print(request, "cajciwcijn", user, "jnsodncosidc", request.user)
 
-    if request.user.is_authenticated and twitter_login_required(request):
-        return Response(data={"boolean": True})
+    if user and request.user.is_authenticated and twitter_login_required(request):
+        return Response(
+            data={"boolean": True, "username": username, "name": name, "image": image}
+        )
 
     else:
         return Response(data={"boolean": False})
 
 
 @api_view(["Get"])
-def home(request):
-    data = TwitterUser.objects.all().first()
-    serializer = UserSerializer(data)
+def followers(request):
+    """remove twitter api call here after implementing new followers and unfollowers
+    becasue  it becomes redundant cos we will call that view first"""
+    userId = request.GET.get("id")
+    user = TwitterUser.objects.get(id=userId)
+    # old_followers = TwitterFollowers.objects.filter(user=user)
+
+    client = get_client()
+    # take  out next two lines
+    f = get_follolwers(userId)
+    fw = get_follolwing(userId)
+
+    add_followers(f, user)
+    add_following(fw, user)
+
+    fset = TwitterFollowers.objects.values_list("id")
+    fwset = TwitterFollowing.objects.values_list("id")
+
+    not_following = fwset.exclude(id__in=fset)
+    nfset = TwitterFollowing.objects.filter(id__in=not_following)
+    # print(nfset.__dict__, "dicsdcsdjncisdjnc")
+    # for i in nfset:
+    #     print(i.id, i.profile_image_url)
+
+    # return Response(data={"boolean": False})
+
+    serializer = FollowingSerializer(nfset, many=True)
     return Response(serializer.data)
 
 

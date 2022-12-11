@@ -18,26 +18,25 @@ class Callback extends Component {
 		} else {
 			const oauth_token = query.get("oauth_token");
 			const oauth_verifier = query.get("oauth_verifier");
-			try {
-				await axios({
-					method: "get",
-					url: "/users/callback_verifier",
-					params: { oauth_token: oauth_token, oauth_verifier: oauth_verifier },
-				}).then((res) => {
+			await axios({
+				method: "get",
+				url: "/users/callback_verifier/",
+				params: { oauth_token: oauth_token, oauth_verifier: oauth_verifier },
+			})
+				.then((res) => {
 					if (res.data.boolean) {
 						console.log("data fetched callback");
 						let { id, username } = res.data;
 						this.cookies.set("id", id, { path: "/" });
-						history.push("/home", { loggedInAs: id });
+						this.cookies.set("username", username, { path: "/", maxAge: 31536000 });
+						history.push("/home");
 					} else {
 						// replace with toast
 						console.log(res.data.message, "callback");
 					}
 					console.log(res);
-				});
-			} catch (error) {
-				console.log(error);
-			}
+				})
+				.catch((err) => console.log(err));
 		}
 	}
 	render() {

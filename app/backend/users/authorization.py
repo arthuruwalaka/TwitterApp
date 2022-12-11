@@ -23,6 +23,9 @@ def create_update_user_from_twitter(twitter_user_new):
         twitter_user.save()
         return user, twitter_user
     else:
+        twitter_user.username = twitter_user_new.username
+        twitter_user.name = twitter_user_new.name
+        twitter_user.profile_image_url = twitter_user_new.profile_image_url
         twitter_user.twitter_oauth_token = twitter_user_new.twitter_oauth_token
         twitter_user.save()
         user = twitter_user.user

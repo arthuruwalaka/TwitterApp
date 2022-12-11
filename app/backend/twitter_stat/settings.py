@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "users",
     "webpack_loader",
+    "tweets",
 ]
 
 MIDDLEWARE = [
@@ -61,7 +62,7 @@ ROOT_URLCONF = "twitter_stat.urls"
 WEBPACK_LOADER = {
     "DEFAULT": {
         "BUNDLE_DIR_NAME": "bundles/",
-        "STATS_FILE": os.path.join(BASE_DIR, "webpack-stats.dev.json"),
+        "STATS_FILE": os.path.join(BASE_DIR, "client/webpack-stats.dev.json"),
     }
 }
 
@@ -97,6 +98,9 @@ DATABASES = {
         "PASSWORD": "password",
         "HOST": "localhost",
         "PORT": "",
+        "OPTIONS": {
+            "charset": "utf8mb4",
+        },
     }
 }
 
@@ -125,7 +129,7 @@ LOGIN_URL = "/users/twitter_login/"
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "MST"
 
 USE_I18N = True
 

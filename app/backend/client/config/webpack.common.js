@@ -2,10 +2,12 @@ const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BundleTracker = require("webpack-bundle-tracker");
+const ESLintPlugin = require("eslint-webpack-plugin");
 
 // const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const paths = require("./paths");
+// const { esES } = require("rsuite/esm/locales");
 const publicPath = "http://localhost:3000/";
 const publicUrl = "http://localhost:3000/";
 module.exports = {
@@ -20,7 +22,7 @@ module.exports = {
 	output: {
 		path: paths.build,
 		filename: "bundle.[hash].js",
-		publicPath: "/",
+		publicPath: publicPath,
 	},
 
 	// Customize the webpack build process
@@ -51,7 +53,8 @@ module.exports = {
 			manifest: "./public/manifest.json",
 			filename: "index.html", // output file
 		}),
-		new BundleTracker({ path: paths.backend, filename: "webpack-stats.dev.json" }),
+		new BundleTracker({ path: "../../", filename: "webpack-stats.dev.json" }),
+		new ESLintPlugin(),
 	],
 
 	// Determine how modules within the project are treated

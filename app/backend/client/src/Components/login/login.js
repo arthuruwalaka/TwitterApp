@@ -23,7 +23,7 @@ class LoginComponent extends Component {
 
 	handleClick = () => {
 		console.log("loggegegegeg", this.state);
-		history.push("/authenticate", { loggedInAs: this.state.loggedInAs });
+		history.push("/authenticate");
 	};
 
 	render() {
