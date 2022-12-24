@@ -11,17 +11,40 @@ class Callback extends Component {
 	}
 	async componentDidMount() {
 		const query = new URLSearchParams(window.location.search);
+		const callback_url = window.location.href;
 		if ("denied" in query) {
 			// replace with toast
 			console.log("access denied try again");
 			history.push("/login");
 		} else {
-			const oauth_token = query.get("oauth_token");
-			const oauth_verifier = query.get("oauth_verifier");
+			console.log(query);
+			console.log(callback_url);
+			// const oauth_token = query.get("oauth_token");
+			// const oauth_verifier = query.get("oauth_verifier");
+			// await axios({
+			// 	method: "get",
+			// 	url: "/users/callback_verifier/",
+			// 	params: { oauth_token: oauth_token, oauth_verifier: oauth_verifier },
+			// })
+			// 	.then((res) => {
+			// 		if (res.data.boolean) {
+			// 			console.log("data fetched callback");
+			// 			let { id, username } = res.data;
+			// 			this.cookies.set("id", id, { path: "/" });
+			// 			this.cookies.set("username", username, { path: "/", maxAge: 31536000 });
+			// 			history.push("/home");
+			// 		} else {
+			// 			// replace with toast
+			// 			console.log(res.data.message, "callback");
+			// 		}
+			// 		console.log(res);
+			// 	})
+			// .catch((err) => console.log(err));
+
 			await axios({
 				method: "get",
 				url: "/users/callback_verifier/",
-				params: { oauth_token: oauth_token, oauth_verifier: oauth_verifier },
+				params: { response_url: callback_url },
 			})
 				.then((res) => {
 					if (res.data.boolean) {

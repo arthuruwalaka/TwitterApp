@@ -19,14 +19,14 @@ def create_update_user_from_twitter(twitter_user_new):
             profile_image_url=twitter_user_new.profile_image_url,
         )
         twitter_user.user = user
-        twitter_user.twitter_oauth_token = twitter_user_new.twitter_oauth_token
+        twitter_user.twitter_access_token = twitter_user_new.twitter_access_token
         twitter_user.save()
         return user, twitter_user
     else:
         twitter_user.username = twitter_user_new.username
         twitter_user.name = twitter_user_new.name
         twitter_user.profile_image_url = twitter_user_new.profile_image_url
-        twitter_user.twitter_oauth_token = twitter_user_new.twitter_oauth_token
+        twitter_user.twitter_access_token = twitter_user_new.twitter_access_token
         twitter_user.save()
         user = twitter_user.user
         if user is not None:
@@ -38,7 +38,8 @@ def create_update_user_from_twitter(twitter_user_new):
 def check_token_still_valid(twitter_user):
     twitter_api = TwitterAPI()
     info = twitter_api.get_me(
-        twitter_user.twitter_oauth_token.oauth_token,
-        twitter_user.twitter_oauth_token.oauth_token_secret,
+        twitter_user.twitter_access_token.access_token
+        # twitter_user.twitter_oauth_token.oauth_token,
+        # twitter_user.twitter_oauth_token.oauth_token_secret,
     )
     return info

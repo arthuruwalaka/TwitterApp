@@ -19,7 +19,7 @@ class Home extends Component {
 			},
 		};
 		this.cookies = new Cookies();
-		this.showState = this.showState.bind(this);
+		this.getBookmarks = this.getBookmarks.bind(this);
 	}
 
 	async componentDidMount() {
@@ -45,8 +45,17 @@ class Home extends Component {
 			})
 			.catch((err) => console.log(err));
 	}
-	showState() {
-		console.log(this.state, "show state func");
+	async getBookmarks() {
+		const id = this.cookies.get("id");
+		await axios({
+			method: "get",
+			url: "tweets/bookmarks/",
+			params: { id: id },
+		})
+			.then((res) => {
+				console.log("snvojsdn");
+			})
+			.catch((err) => console.log("err"));
 	}
 
 	render() {
@@ -58,6 +67,10 @@ class Home extends Component {
 					username={this.state.loggedInAs.username}
 				/>
 				<div className="body-div">dscnsjdncosdncoisd</div>
+				<button className="books" onClick={this.getBookmarks}>
+					{" "}
+					get bookmarks
+				</button>
 			</div>
 		);
 	}
