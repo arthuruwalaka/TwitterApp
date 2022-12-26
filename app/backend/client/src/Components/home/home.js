@@ -5,7 +5,8 @@ import Cookies from "universal-cookie";
 import Card from "react-bootstrap/Card";
 import "./home.scss";
 import search from "../images/search.svg";
-import Header from "../header/header";
+import Header from "../header/Header";
+import Tweet from "../tweet/Tweet";
 
 class Home extends Component {
 	constructor(props) {

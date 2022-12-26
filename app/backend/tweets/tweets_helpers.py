@@ -46,7 +46,7 @@ def get_bookmarks(userId):
         client.get_bookmarks,
         expansions=["attachments.media_keys", "author_id"],
         media_fields=["url", "preview_image_url", "type"],
-        user_fields=["name", "username", "profile_image_url"],
+        user_fields=["name", "username", "profile_image_url", "protected", "verified"],
         max_results=3,
         limit=2,
     )
@@ -57,7 +57,10 @@ def get_bookmarks(userId):
 # updates bookmarks in data base if new bookmarks have  been added
 def update_bookmarks(userId):
     bookmarks = get_bookmarks(userId)
+    first_bookmark = get_first_bookmark(userId)
     twitter_user = TwitterUser.objects.get(id=userId)
+    twitter_user.first_bookmark = first_bookmark
+    twitter_user.save(update_fields=["first_bookmark"])
     for page in bookmarks:
         data = page.data
         media = page.includes.get("media")
@@ -74,8 +77,19 @@ def update_bookmarks(userId):
             name = t_author.name
             username = t_author.username
             profile_img = t_author.profile_image_url
+            is_protected = t_author.protected
+            is_verified = t_author.verified
 
-            new_tweet = Tweets(id=id, url=url, text=text, username=username, name=name)
+            new_tweet = Tweets(
+                id=id,
+                url=url,
+                text=text,
+                username=username,
+                name=name,
+                profile_img=profile_img,
+                verified=is_verified,
+                protected=is_protected,
+            )
             new_tweet.save()
 
             # get tweets media if it contains media
@@ -92,7 +106,7 @@ def update_bookmarks(userId):
                     new_media.save()
 
                     new_tweet.media_urls.add(new_media)
-                new_tweet.save()
+                new_tweet.save(update_fields=["is_media"])
             else:
                 has_media = False
             twitter_user.bookmarks.add(new_tweet)

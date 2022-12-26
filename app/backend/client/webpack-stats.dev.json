@@ -1,15 +1,15 @@
 {
   "status": "done",
   "assets": {
-    "bundle.5533682dc8ab066ff993.js": {
-      "name": "bundle.5533682dc8ab066ff993.js",
-      "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/bundle.5533682dc8ab066ff993.js",
-      "publicPath": "http://localhost:3000/bundle.5533682dc8ab066ff993.js"
+    "bundle.e0ad54c118ed9a2f628f.js": {
+      "name": "bundle.e0ad54c118ed9a2f628f.js",
+      "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/bundle.e0ad54c118ed9a2f628f.js",
+      "publicPath": "http://localhost:3000/bundle.e0ad54c118ed9a2f628f.js"
     },
-    "bundle.5533682dc8ab066ff993.js.map": {
-      "name": "bundle.5533682dc8ab066ff993.js.map",
-      "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/bundle.5533682dc8ab066ff993.js.map",
-      "publicPath": "http://localhost:3000/bundle.5533682dc8ab066ff993.js.map"
+    "bundle.e0ad54c118ed9a2f628f.js.map": {
+      "name": "bundle.e0ad54c118ed9a2f628f.js.map",
+      "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/bundle.e0ad54c118ed9a2f628f.js.map",
+      "publicPath": "http://localhost:3000/bundle.e0ad54c118ed9a2f628f.js.map"
     },
     "favicon.ico": {
       "name": "favicon.ico",
@@ -21,20 +21,20 @@
       "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/index.html",
       "publicPath": "http://localhost:3000/index.html"
     },
-    "node_modules_web-vitals_dist_web-vitals_js.bundle.5533682dc8ab066ff993.js": {
-      "name": "node_modules_web-vitals_dist_web-vitals_js.bundle.5533682dc8ab066ff993.js",
-      "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/node_modules_web-vitals_dist_web-vitals_js.bundle.5533682dc8ab066ff993.js",
-      "publicPath": "http://localhost:3000/node_modules_web-vitals_dist_web-vitals_js.bundle.5533682dc8ab066ff993.js"
+    "node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js": {
+      "name": "node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js",
+      "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js",
+      "publicPath": "http://localhost:3000/node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js"
     },
-    "node_modules_web-vitals_dist_web-vitals_js.bundle.5533682dc8ab066ff993.js.map": {
-      "name": "node_modules_web-vitals_dist_web-vitals_js.bundle.5533682dc8ab066ff993.js.map",
-      "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/node_modules_web-vitals_dist_web-vitals_js.bundle.5533682dc8ab066ff993.js.map",
-      "publicPath": "http://localhost:3000/node_modules_web-vitals_dist_web-vitals_js.bundle.5533682dc8ab066ff993.js.map"
+    "node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js.map": {
+      "name": "node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js.map",
+      "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js.map",
+      "publicPath": "http://localhost:3000/node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js.map"
     }
   },
   "chunks": {
     "main": [
-      "bundle.5533682dc8ab066ff993.js"
+      "bundle.e0ad54c118ed9a2f628f.js"
     ]
   },
   "publicPath": "http://localhost:3000/"
