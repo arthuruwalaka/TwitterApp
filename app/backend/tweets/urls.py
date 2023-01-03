@@ -5,4 +5,5 @@ from . import views
 urlpatterns = [
     path("", views.index, name="index"),
     path("bookmarks/", views.bookmarks, name="bookmarks"),
+    path("search/", views.search, name="search"),
 ]

@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from django.db.models import Q
 
-
+from .tweets_serializers import TweetSerializer
 from .tweets_helpers import *
 
 # Create your views here.
@@ -16,40 +17,29 @@ def index(request):
 
 @api_view(["GET", "POST"])
 def bookmarks(request):
-    fi = open("out.txt", "w")
-    print("got hererer")
-    id = request.GET.get("id")
-    first = get_first_bookmark(id)
-    saved_first = TwitterUser.objects.get(id=id).first_bookmark
-    print(first, saved_first)
+    user = TwitterUser.objects.prefetch_related("bookmarks").get(user=request.user)
+    id = user.id
+    first = get_first_bookmark(user)
+    saved_first = user.first_bookmark
+
     if first == saved_first:
+        print("same booksssssss")
         return Response(data={"boolean": True, "message": "No new bookmarks"})
     else:
-        print("got tot else in bookamrks ", id)
-        update_bookmarks(id)
+        update_bookmarks(user)
         return Response(data={"boolean": True, "message": "New bookmarks added"})
-    # bookmarks = get_bookmarks(id)
-    # for f in bookmarks:
-    #     k = f.includes["media"]
-    #     for i in range(1):
-    #         print(
-    #             k[i]["preview_image_url"],
-    #             "><>>><><><",
-    #             k[i]["url"],
-    #             "><>>><><><",
-    #             k[i]["type"],
-    #             "\n",
-    #         )
 
-    #     # print(k)
-    #     # print(f.includes["media"], "\n")
-    #     # L = f.includes.media
-    #     fi.writelines(f"Included Medias: {f.data}\n")
-    # fi.writelines(f"Included Users: {f.includes.get('users')}"))
-    # print(bookmarks)
-    # temp = bookmarks[0:4]
-    # for tweet in temp:
-    #     print(tweet.meta)
-    # pass
-    # client = get_client()
-    return Response(data={"bool": True})
+
+@api_view(["GET"])
+def search(request):
+    q = request.GET.get("q")
+    print(q, ">>>>>>>>>")
+    twitter_user = TwitterUser.objects.prefetch_related("bookmarks").get(
+        user=request.user
+    )
+    books = twitter_user.bookmarks.all().filter(
+        Q(text__icontains=q) | Q(username__icontains=q) | Q(name__icontains=q)
+    )
+
+    serializer = TweetSerializer(books, many=True)
+    return Response(serializer.data)

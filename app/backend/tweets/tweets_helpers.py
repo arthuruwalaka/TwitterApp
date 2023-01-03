@@ -31,12 +31,12 @@ def get_client(userId):
 
 
 # checks for new bookmarks
-def get_first_bookmark(userId):
-
-    client = get_client(userId)
+def get_first_bookmark(user):
+    id = user.id
+    client = get_client(id)
     first_bookmark = client.get_bookmarks(max_results=1)
     print(first_bookmark, "first_bookmakr")
-    return first_bookmark.data[0]["id"]
+    return str(first_bookmark.data[0]["id"])
 
 
 def get_bookmarks(userId):
@@ -55,12 +55,12 @@ def get_bookmarks(userId):
 
 
 # updates bookmarks in data base if new bookmarks have  been added
-def update_bookmarks(userId):
-    bookmarks = get_bookmarks(userId)
-    first_bookmark = get_first_bookmark(userId)
-    twitter_user = TwitterUser.objects.get(id=userId)
-    twitter_user.first_bookmark = first_bookmark
-    twitter_user.save(update_fields=["first_bookmark"])
+def update_bookmarks(user):
+    id = user.id
+    bookmarks = get_bookmarks(id)
+    first_bookmark = get_first_bookmark(user)
+    user.first_bookmark = first_bookmark
+    user.save(update_fields=["first_bookmark"])
     for page in bookmarks:
         data = page.data
         media = page.includes.get("media")
@@ -86,7 +86,7 @@ def update_bookmarks(userId):
                 text=text,
                 username=username,
                 name=name,
-                profile_img=profile_img,
+                profile_image=profile_img,
                 verified=is_verified,
                 protected=is_protected,
             )
@@ -109,4 +109,4 @@ def update_bookmarks(userId):
                 new_tweet.save(update_fields=["is_media"])
             else:
                 has_media = False
-            twitter_user.bookmarks.add(new_tweet)
+            user.bookmarks.add(new_tweet)

@@ -3,7 +3,7 @@ import tweepy
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .user_serializers import FollowerSerializer, FollowingSerializer, UserSerializer
+from .user_serializers import FollowingSerializer
 
 from django.http import JsonResponse
 from django.http import HttpResponseBadRequest
@@ -15,7 +15,7 @@ from django.contrib.auth.models import User
 
 from django.shortcuts import render, redirect
 from .decorators import twitter_login_required
-from .models import TwitterAuthToken, TwitterUser, TwitterFollowers, TwitterAccessToken
+from .models import TwitterUser, TwitterFollowers, TwitterAccessToken
 from .authorization import create_update_user_from_twitter, check_token_still_valid
 from twitter_api.twitter_api import TwitterAPI
 from .users_helpers import *
@@ -153,8 +153,8 @@ def callback_verifier(request):
 @api_view(["Get"])
 def index(request):
     twitter_api = TwitterAPI()
-    userId = request.GET.get("id")
-    twitter_user = TwitterUser.objects.get(id=userId)
+    user = request.user
+    twitter_user = TwitterUser.objects.get(user=user)
     if twitter_user is not None:
         if not twitter_login_required(request, twitter_user):
             print("had to use refresh token ")
@@ -165,10 +165,6 @@ def index(request):
         username = twitter_user.username
         name = twitter_user.name
         image = twitter_user.profile_image_url
-        user = User.objects.filter(username=username).first()
-        if user is not None:
-            login(request, user)
-
         if (
             user
             and user.is_authenticated

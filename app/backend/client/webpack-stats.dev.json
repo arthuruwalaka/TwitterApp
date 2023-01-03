@@ -1,41 +1,6 @@
 {
-  "status": "done",
-  "assets": {
-    "bundle.e0ad54c118ed9a2f628f.js": {
-      "name": "bundle.e0ad54c118ed9a2f628f.js",
-      "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/bundle.e0ad54c118ed9a2f628f.js",
-      "publicPath": "http://localhost:3000/bundle.e0ad54c118ed9a2f628f.js"
-    },
-    "bundle.e0ad54c118ed9a2f628f.js.map": {
-      "name": "bundle.e0ad54c118ed9a2f628f.js.map",
-      "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/bundle.e0ad54c118ed9a2f628f.js.map",
-      "publicPath": "http://localhost:3000/bundle.e0ad54c118ed9a2f628f.js.map"
-    },
-    "favicon.ico": {
-      "name": "favicon.ico",
-      "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/favicon.ico",
-      "publicPath": "http://localhost:3000/favicon.ico"
-    },
-    "index.html": {
-      "name": "index.html",
-      "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/index.html",
-      "publicPath": "http://localhost:3000/index.html"
-    },
-    "node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js": {
-      "name": "node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js",
-      "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js",
-      "publicPath": "http://localhost:3000/node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js"
-    },
-    "node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js.map": {
-      "name": "node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js.map",
-      "path": "/Users/arthuruwalaka/Documents/TwitterProject/TwitterApp/app/backend/client/dist/node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js.map",
-      "publicPath": "http://localhost:3000/node_modules_web-vitals_dist_web-vitals_js.bundle.e0ad54c118ed9a2f628f.js.map"
-    }
-  },
-  "chunks": {
-    "main": [
-      "bundle.e0ad54c118ed9a2f628f.js"
-    ]
-  },
+  "status": "compile",
+  "assets": {},
+  "chunks": {},
   "publicPath": "http://localhost:3000/"
 }

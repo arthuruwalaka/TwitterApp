@@ -5,12 +5,12 @@ from tweets.models import Tweets
 # Create your models here.
 
 
-class TwitterAuthToken(models.Model):
-    oauth_token = models.CharField(max_length=255)
-    oauth_token_secret = models.CharField(max_length=255)
+# class TwitterAuthToken(models.Model):
+#     oauth_token = models.CharField(max_length=255)
+#     oauth_token_secret = models.CharField(max_length=255)
 
-    def __str__(self):
-        return self.oauth_token
+#     def __str__(self):
+#         return self.oauth_token
 
 
 class TwitterAccessToken(models.Model):
@@ -26,7 +26,7 @@ class TwitterUser(models.Model):
     name = models.CharField(max_length=255)
     username = models.CharField(max_length=255)
     profile_image_url = models.CharField(max_length=255, null=True)
-    twitter_oauth_token = models.ForeignKey(TwitterAuthToken, on_delete=models.CASCADE)
+    # twitter_oauth_token = models.ForeignKey(TwitterAuthToken, on_delete=models.CASCADE)
     twitter_access_token = models.ForeignKey(
         TwitterAccessToken, on_delete=models.CASCADE, null=True
     )

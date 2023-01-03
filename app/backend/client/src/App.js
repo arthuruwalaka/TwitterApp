@@ -11,28 +11,28 @@ import HTML404 from "./Components/html/404";
 import "./App.css";
 import "./App.scss";
 import axios from "axios";
-let cookies = new Cookies();
-let id = cookies.get("id");
-let x = "2239624038";
-let loggedIn;
+// let cookies = new Cookies();
+// let id = cookies.get("id");
+// let x = "2239624038";
+// let loggedIn;
 
-// replace with requre login component
-if (id) {
-	await axios({
-		method: "get",
-		url: "users/",
-		params: { id: x },
-	})
-		.then((res) => {
-			console.log(res.data, "res");
-			loggedIn = res.data.boolean;
-		})
-		.catch((err) => console.log(err));
-} else {
-	loggedIn = false;
-}
+// // replace with requre login component
+// if (id) {
+// 	await axios({
+// 		method: "get",
+// 		url: "users/",
+// 		params: { id: x },
+// 	})
+// 		.then((res) => {
+// 			console.log(res.data, "res");
+// 			loggedIn = res.data.boolean;
+// 		})
+// 		.catch((err) => console.log(err));
+// } else {
+// 	loggedIn = false;
+// }
 
-console.log(loggedIn, "logged  in as", id);
+// console.log(loggedIn, "logged  in as", id);
 class App extends Component {
 	render() {
 		return (

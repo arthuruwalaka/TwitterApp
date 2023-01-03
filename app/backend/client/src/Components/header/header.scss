@@ -1,22 +1,21 @@
 
 $light-blue:rgb(29, 155, 240);
 $dark-mode: #15202B;
+// html, body {margin:0;padding:0;height:100%;} 
 .header{
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
-    max-height: 10%;
-    min-width: 100%;
     background-color: $dark-mode;
     padding: 1rem;
     font-size: large;
     font-family: 'Poppins', sans-serif;
 
 }
-p{
+@mixin name {
     line-height: 0.1rem;
-    font-size: 0.7rem;
+    font-size: 0.7rem; 
 }
 .name-div{
     display: flex;
@@ -27,10 +26,14 @@ p{
     margin-top: 7px;
 }
 .username{
+    @include name;
     font-weight: lighter;
+   
 }
 .name{
+    @include name;
     font-weight: bold;
+   
 }
 .profile-div{
     max-width: 50% ;
@@ -48,6 +51,8 @@ p{
     border: none;
     border-radius: 9999px;
     padding: 0.5rem;
+    font-size: small;
+   
 
 }
 .logo{
