@@ -86,7 +86,7 @@ def update_bookmarks(user):
                 text=text,
                 username=username,
                 name=name,
-                profile_image=profile_img,
+                image=profile_img,
                 verified=is_verified,
                 protected=is_protected,
             )

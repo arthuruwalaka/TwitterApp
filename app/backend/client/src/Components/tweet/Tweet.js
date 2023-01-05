@@ -10,17 +10,15 @@ class Tweet extends Component {
 	}
 
 	render() {
+		{
+			// console.log("tweet card", this.props.author, this.props.permalink, this.props.tweet);
+		}
 		return (
 			<TweetCard
-				author={{
-					name: "randy",
-					username: "randyfactory",
-					image: "https://pbs.twimg.com/profile_images/1382083582752096262/xrx0PO8Z_400x400.jpg",
-				}}
-				tweet={`how was “philosopher” ever a job lmao like was socrates sippin wine on a balcony somewhere drunkenly slurring shit like “to find urself, think for urself” with a crowd cheering underneath him like fuck yes socrates another banger this man will not miss`}
+				author={this.props.author}
+				tweet={this.props.tweet}
 				time={"Go to tweet"}
-				// source="Twitter for iPhone"
-				permalink="https://twitter.com/randyfactory/status/1366841622495961091" // optional
+				permalink={this.props.permalink} // optional
 				fitInsideContainer
 				clickableProfileLink
 			/>

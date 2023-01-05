@@ -18,7 +18,6 @@ def index(request):
 @api_view(["GET", "POST"])
 def bookmarks(request):
     user = TwitterUser.objects.prefetch_related("bookmarks").get(user=request.user)
-    id = user.id
     first = get_first_bookmark(user)
     saved_first = user.first_bookmark
 

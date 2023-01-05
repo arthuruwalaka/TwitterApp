@@ -20,7 +20,7 @@ class Tweets(models.Model):
     media_urls = models.ManyToManyField(Media)
     username = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
-    profile_image = models.CharField(max_length=255)
+    image = models.CharField(max_length=255)
     protected = models.BooleanField(default=False)
     verified = models.BooleanField(default=False)
 

@@ -45,11 +45,12 @@ html, body {margin:0;padding:0;height:100%;}
 .search-bttn{
     @include form-height;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     border: 0;
     min-width: 8%;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
+    
 }
 .search-img{
     size: 100%;

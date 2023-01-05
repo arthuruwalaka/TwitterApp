@@ -13,7 +13,7 @@ class TweetSerializer(serializers.ModelSerializer):
             "media_urls",
             "username",
             "name",
-            "profile_image",
+            "image",
             "protected",
             "verified",
         ]
