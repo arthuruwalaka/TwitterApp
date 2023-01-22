@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import "./header.scss";
-import history from "../../history/browserHistory";
-import Cookies from "universal-cookie";
-import Button from "react-bootstrap/Button";
-import Bookmark from "../images/bookmark.svg";
+import { BsLightbulbFill, BsLightbulbOffFill } from "react-icons/bs";
 
 class Header extends Component {
 	constructor(props) {
@@ -27,7 +24,15 @@ class Header extends Component {
 						</div>
 					</div>
 
-					<button className="logout-bttn">Logout</button>
+					<div className="toggle-box">
+						<input type="checkbox" className="checkbox" id="checkbox" onChange={this.props.toggle} />
+						<label for="checkbox" className="checkbox-label">
+							<BsLightbulbFill color="#FFCC33" />
+							<BsLightbulbOffFill color="grey" />
+
+							<span className="ball"></span>
+						</label>
+					</div>
 				</nav>
 			</div>
 		);

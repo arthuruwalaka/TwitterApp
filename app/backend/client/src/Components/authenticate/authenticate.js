@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import history from "../../history/browserHistory";
+import Loader from "../utils/Loader";
 
 class Authenticate extends Component {
 	constructor(props) {
@@ -34,7 +35,11 @@ class Authenticate extends Component {
 
 	render() {
 		// console.log("rednder");
-		return <div>authenticate</div>;
+		return (
+			<div>
+				<Loader />
+			</div>
+		);
 	}
 }
 

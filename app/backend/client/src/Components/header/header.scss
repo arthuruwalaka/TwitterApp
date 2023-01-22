@@ -7,15 +7,15 @@ $dark-mode: #15202B;
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
-    background-color: $dark-mode;
-    padding: 1rem;
+    background-color: var(--background);
+    padding: 1em;
     font-size: large;
-    font-family: 'Poppins', sans-serif;
+    font-family: "myfont";
 
 }
 @mixin name {
-    line-height: 0.1rem;
-    font-size: 0.7rem; 
+    line-height: 0.1em;
+    font-size: 0.7em; 
 }
 .name-div{
     display: flex;
@@ -41,27 +41,51 @@ $dark-mode: #15202B;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    color: white;
+    color: var(--text-primary);
 }
 .profile-img{
     height: 3rem;
     border-radius: 50%;
 }
-.logout-bttn{
+.toggle-box{
     border: none;
     border-radius: 9999px;
     padding: 0.5rem;
     font-size: small;
-   
+}
 
-}
-.logo{
-    color: white;
+.checkbox {
+    opacity: 0;
+   
+  }
+  
+  .checkbox-label {
+    background-color: var(--search-background);
+    width: 50px;
+    height: 26px;
+    border-radius: 50px;
+    position: relative;
+    padding: 5px;
+    cursor: pointer;
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-}
-.logo-img{
-    max-height: 4em;
-}
+  }
+    
+  .checkbox-label .ball {
+    background-color: var(--check-circle);
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    border-radius: 50%;
+    transition: transform 0.2s linear;
+  }
+  
+  .checkbox:checked + .checkbox-label .ball {
+    transform: translateX(24px);
+  }
+
+
 

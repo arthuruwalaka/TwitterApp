@@ -1,0 +1,55 @@
+@font-face {
+    font-family: "myfont";
+    src: url("../../fonts/chirp-regular-web.woff") format('woff');
+    font-weight: normal;
+  }
+  
+  @font-face {
+    font-family: "myfont";
+    src: url("../../fonts/chirp-bold-web.woff") format('woff');
+    font-weight: bold;
+  }
+  
+  @font-face {
+    font-family: "myfont";
+    src: url("../../fonts/chirp-medium-web.woff") format('woff');
+    font-weight:medium;
+    
+  }
+  
+  @font-face {
+    font-family: "myfont";
+    src: url("../../fonts/chirp-heavy-web.woff") format('woff');
+    font-weight: bolder;
+  }
+
+html, body {margin:0;padding:0;height:100%;}
+
+.react-tweet-card__container{
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    padding-top: 0.5em;
+    padding-bottom: 0;
+    padding-left: 1em;
+    row-gap: 0.2em;
+}
+
+.react-tweet-card__twitter-logo{
+    display: none;
+}
+.react-tweet-card__tweet{
+    font-family: "myfont";
+    font-size: 1em;
+    padding-left: 3.35em;
+    // font-weight: 900;
+}
+.react-tweet-card__author-name{
+    font-family: "myfont";
+    font-size: 1em;
+}
+.react-tweet-card__author-username{
+    font-family: "myfont";
+    font-size:0.8em;
+
+}

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Fade } from "react-bootstrap";
-
 import TweetCard from "react-tweet-card";
+
+import "./tweet.scss";
 
 class Tweet extends Component {
 	constructor(props) {
@@ -10,17 +10,15 @@ class Tweet extends Component {
 	}
 
 	render() {
-		{
-			// console.log("tweet card", this.props.author, this.props.permalink, this.props.tweet);
-		}
 		return (
 			<TweetCard
 				author={this.props.author}
 				tweet={this.props.tweet}
-				time={"Go to tweet"}
 				permalink={this.props.permalink} // optional
 				fitInsideContainer
 				clickableProfileLink
+				theme={this.props.theme}
+				showDetails={false}
 			/>
 		);
 	}

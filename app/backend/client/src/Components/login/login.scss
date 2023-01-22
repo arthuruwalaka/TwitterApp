@@ -1,0 +1,24 @@
+.login-div{
+    width: 100%;
+    height:100%;
+    position:absolute;
+    background-color:#F5F5F5;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+.login-title{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    width:fit-content;
+}
+
+.twitter-login:hover ,.twitter-login:active{
+    transform: scale(1.05);
+    
+}
+.twitter-login{
+    transition: transform .2s; /* Animation */
+}
