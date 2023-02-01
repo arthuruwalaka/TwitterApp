@@ -9,7 +9,7 @@ import Header from "../header/Header";
 import Tweet from "../tweet/Tweet";
 import RequireLoginComponent from "../utils/requireLoginComponent";
 
-class Home extends RequireLoginComponent {
+class Home extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {

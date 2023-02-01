@@ -1,26 +1,31 @@
 import React, { Component } from "react";
-import history from "../../history/browserHistory";
+// import history from "../../history/browserHistory";
 import { BsFillBookmarksFill, BsSearch } from "react-icons/bs";
 import Lottie from "react-lottie";
 import animationData from "../images/search.json";
 import bookmarkSvg from "../images/bookmarks-simple.svg";
 import "./login.scss";
+import { withRouter } from "../withRouter";
 import Loader from "../utils/Loader";
+import { Navigate } from "react-router-dom";
 
 class LoginComponent extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = { logIn: false };
+
+		// const navigate = useNavigate();
+		this.handleClick = this.handleClick.bind(this);
 	}
 
 	handleClick = () => {
-		console.log("loggegegegeg", this.state);
-		history.push("/authenticate");
+		this.setState({ logIn: true });
 	};
 
 	render() {
 		return (
 			<div className="login-div">
+				{this.state.logIn && <Navigate to="/authenticate" />}
 				<div className="login-title">
 					<Lottie options={defaultOptions} height={"3em"} width={"3em"} />
 					<img style={{ height: "3em", width: "3em" }} src={bookmarkSvg} />
@@ -46,6 +51,7 @@ class LoginComponent extends Component {
 		);
 	}
 }
+
 const defaultOptions = {
 	loop: false,
 	autoplay: true,
