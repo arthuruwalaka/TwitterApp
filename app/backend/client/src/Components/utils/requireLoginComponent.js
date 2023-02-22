@@ -1,32 +1,16 @@
 import history from "../../history/browserHistory";
 import { Component } from "react";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
-// await axios({
-// 	method: "get",
-// 	url: "users/",
-// })
-// 	.then((res) => {
-// 		if (res.data.boolean) {
-// 			console.log("kkkkkk");
-// 			return;
-// 		} else {
-// 			console.log("user not logged in ");
-// 		}
-// 	})
-// 	.catch((err) => console.log(err));
 class RequireLoginComponent extends Component {
 	constructor(props) {
 		super(props);
 
-		// all checks failed, redirect back to login
-		let bbb = false;
-		if (bbb) {
-			return;
-		} else {
-			history.push("/login");
-		}
+		// are we logged in?
+
 		this.componentDidMount = () => {
-			console.log("yeah");
+			console.log("coponent sidd mount");
 		};
 
 		this.render = () => {
@@ -39,3 +23,43 @@ class RequireLoginComponent extends Component {
 	}
 }
 export default RequireLoginComponent;
+
+// class RequireLoginComponent extends Component {
+// 	constructor(props) {
+// 		super(props);
+// 		// this.state = {
+// 		// 	logIn: false,
+// 		// };
+
+// 		// all checks failed, redirect back to login
+// 		// axios({
+// 		// 	method: "get",
+// 		// 	url: "users/",
+// 		// })
+// 		// 	.then((res) => {
+// 		// 		if (res.data.boolean) {
+// 		// 			return;
+// 		// 		} else {
+// 		// 			this.setState({ logIn: true });
+// 		// 		}
+// 		// 	})
+// 		// 	.catch((err) => this.setState({ logIn: true }));
+// 		// let bbb = false;
+// 		// // let redi = false;
+// 		// if (bbb) {
+// 		// 	console.log("if ff");
+// 		// 	// return;
+// 		// } else {
+// 		// 	console.log(" else , req");
+// 		// 	// this.setState({ logIn: true });
+// 		// }
+// 		this.componentDidMount = () => {
+// 			console.log("yeah");
+// 		};
+
+// 		this.render = () => {
+// 			return <div>{false && <Navigate to="/login" />}</div>;
+// 		};
+// 	}
+// }
+// export default RequireLoginComponent;

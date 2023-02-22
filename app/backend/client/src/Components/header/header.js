@@ -16,7 +16,7 @@ class Header extends Component {
 		return (
 			<div>
 				<nav className="header">
-					<div className="profile-div">
+					<div className="profile-div" onClick={this.props.logout}>
 						<img className="profile-img" src={this.props.image} />
 						<div className="name-div">
 							<p className="name">{this.props.name}</p>

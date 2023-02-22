@@ -13,7 +13,7 @@ class Authenticate extends Component {
 	async componentDidMount() {
 		await axios({
 			method: "get",
-			url: "/users/twitter_login/",
+			url: "users/twitter_login/",
 		})
 			.then((res) => {
 				if (res.data.boolean) {

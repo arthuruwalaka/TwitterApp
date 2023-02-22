@@ -43,10 +43,9 @@ class Callback extends Component {
 	render() {
 		return (
 			<div>
-				{this.state.goBack && <Navigate to="/login" replace={true} />}
+				{this.state.goBack && <Navigate to="/" replace={true} />}
 				{this.state.goHome && <Navigate to="/home" replace={true} />}
-				{/* <Loader /> */}
-				hjncjnsjncdcnj
+				<Loader />
 			</div>
 		);
 	}

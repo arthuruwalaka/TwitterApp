@@ -41,7 +41,11 @@ $dark-mode: #15202B;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    //textoverflow elipses
     color: var(--text-primary);
+    :hover{
+        cursor: pointer;
+    }
 }
 .profile-img{
     height: 3rem;

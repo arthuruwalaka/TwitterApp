@@ -5,27 +5,55 @@ import Lottie from "react-lottie";
 import animationData from "../images/search.json";
 import bookmarkSvg from "../images/bookmarks-simple.svg";
 import "./login.scss";
-import { withRouter } from "../withRouter";
 import Loader from "../utils/Loader";
+import axios from "axios";
 import { Navigate } from "react-router-dom";
 
 class LoginComponent extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { logIn: false };
+		this.state = { authenticate: false, loggedIn: false, isLoading: true };
 
 		// const navigate = useNavigate();
 		this.handleClick = this.handleClick.bind(this);
 	}
 
-	handleClick = () => {
-		this.setState({ logIn: true });
-	};
+	async componentDidMount() {
+		console.log("component did mount login");
+		await axios({
+			method: "get",
+			url: "users/",
+		})
+			.then((res) => {
+				console.log(res.data, "res in login");
+				if (res.data.boolean) {
+					let loggedIn = res.data.boolean;
+					this.setState({ loggedIn });
+				} else {
+					this.setState({ isLoading: false });
+				}
+			})
+			.catch((err) => console.log(err));
+	}
+	handleClick() {
+		this.setState({ authenticate: true });
+	}
 
 	render() {
+		if (this.state.isLoading) {
+			return <Loader />;
+		}
+		if (this.state.loggedIn) {
+			return (
+				<div>
+					<Loader />
+					<Navigate to="/home" />
+				</div>
+			);
+		}
 		return (
 			<div className="login-div">
-				{this.state.logIn && <Navigate to="/authenticate" />}
+				{this.state.authenticate && <Navigate to="/authenticate" replace={true} />}
 				<div className="login-title">
 					<Lottie options={defaultOptions} height={"3em"} width={"3em"} />
 					<img style={{ height: "3em", width: "3em" }} src={bookmarkSvg} />

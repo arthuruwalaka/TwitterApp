@@ -59,6 +59,7 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = "twitter_stat.urls"
 
+
 WEBPACK_LOADER = {
     "DEFAULT": {
         "BUNDLE_DIR_NAME": "bundles/",

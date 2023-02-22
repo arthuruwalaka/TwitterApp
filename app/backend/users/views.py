@@ -152,34 +152,39 @@ def callback_verifier(request):
 # @twitter_login_required
 @api_view(["Get"])
 def index(request):
+    print("hey ", request.user)
     twitter_api = TwitterAPI()
     user = request.user
-    twitter_user = TwitterUser.objects.get(user=user)
-    if twitter_user is not None:
-        if not twitter_login_required(request, twitter_user):
-            print("had to use refresh token ")
-            refresh_token = twitter_user.twitter_access_token.refresh_token
-            new_access_token = twitter_api.update_token(twitter_user, refresh_token)
-            twitter_user.twitter_access_token.access_token = new_access_token
-            twitter_user.save()
-        username = twitter_user.username
-        name = twitter_user.name
-        image = twitter_user.profile_image_url
-        if (
-            user
-            and user.is_authenticated
-            and twitter_login_required(request, twitter_user)
-        ):
-            return Response(
-                data={
-                    "boolean": True,
-                    "username": username,
-                    "name": name,
-                    "image": image,
-                }
-            )
+    try:
+        twitter_user = TwitterUser.objects.get(user=user)
+        if twitter_user is not None:
+            if not twitter_login_required(request, twitter_user):
+                print("had to use refresh token ")
+                refresh_token = twitter_user.twitter_access_token.refresh_token
+                new_access_token = twitter_api.update_token(twitter_user, refresh_token)
+                twitter_user.twitter_access_token.access_token = new_access_token
+                twitter_user.save()
+            username = twitter_user.username
+            name = twitter_user.name
+            image = twitter_user.profile_image_url
+            if (
+                user
+                and user.is_authenticated
+                and twitter_login_required(request, twitter_user)
+            ):
+                return Response(
+                    data={
+                        "boolean": True,
+                        "username": username,
+                        "name": name,
+                        "image": image,
+                    }
+                )
 
-    return Response(data={"boolean": False})
+        return Response(data={"boolean": False})
+    except:
+        print("An error occured")
+        return Response(data={"boolean": False})
 
 
 @api_view(["Get"])
@@ -212,9 +217,14 @@ def followers(request):
     return Response(serializer.data)
 
 
-# @login_required
+@api_view(["Post", "Get"])
 def twitter_logout(request):
+    print("got to logout")
     if request.user.is_authenticated:
+        print("got to if authenticated >>")
         logout(request)
+        return Response(data={"boolean": True})
+
     """ fully implement logout """
+    return Response(data={"boolean": False})
     # return redirect("home")

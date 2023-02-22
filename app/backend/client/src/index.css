@@ -25,6 +25,7 @@ code {
   --text-primary: white;
   --check-circle: rgb(29, 155, 240);
   --border:#464C52;
+  --media-border: none;
   
 }
   
@@ -36,6 +37,7 @@ code {
   --text-primary: black;
   --check-circle: grey;
   --border : #AEAEAE;
+  --media-border: 1px solid #AEAEAE;
   
 }
 

@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import axios from "axios";
+import { Navigate, useLocation } from "react-router-dom";
 import "./home.scss";
 import "../../index.css";
 import searchBlue from "../images/search-blue.svg";
 import searchGrey from "../images/search-grey.svg";
 import Header from "../header/Header";
+import Loader from "../utils/Loader";
 import Tweet from "../tweet/Tweet";
 import RequireLoginComponent from "../utils/requireLoginComponent";
 
@@ -21,6 +23,9 @@ class Home extends Component {
 			input: "",
 			search: {},
 			theme: false,
+			logout: false,
+			goHome: false,
+			isLoading: true,
 		};
 		this.getBookmarks = this.getBookmarks.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -30,9 +35,9 @@ class Home extends Component {
 		this.hasData = this.hasData.bind(this);
 		this.clearSearchData = this.clearSearchData.bind(this);
 		this.toggleTheme = this.toggleTheme.bind(this);
+		this, (this.logoutBox = this.logoutBox.bind(this));
 
 		this.printState = this.printState.bind(this);
-
 		// this.clearSearchData(true);
 	}
 	async componentDidMount() {
@@ -41,19 +46,23 @@ class Home extends Component {
 			url: "users/",
 		})
 			.then((res) => {
+				console.log(res.data, "res in home");
 				if (res.data.boolean) {
+					let loggedIn = res.data.boolean;
+					let goHome = !loggedIn;
 					let { username, name, image } = res.data;
-					this.setState({
-						loggedInAs: {
-							username: username,
-							name: name,
-							image: image,
-						},
-					});
+					let loggedInAs = {
+						username: username,
+						name: name,
+						image: image,
+					};
+					this.setState({ goHome, loggedInAs });
+					this.setState({ isLoading: false });
+				} else {
+					this.setState({ isLoading: false, goHome: true });
 				}
 			})
 			.catch((err) => console.log(err));
-
 		await this.getBookmarks();
 	}
 	async getBookmarks() {
@@ -87,7 +96,6 @@ class Home extends Component {
 			console.log("no dataaaa");
 			search.results = {};
 			search.resolved = true;
-			search.hasData = false;
 			this.setState(search);
 		}
 		// this.setState(search);
@@ -150,27 +158,45 @@ class Home extends Component {
 		}));
 	}
 
+	logoutBox() {
+		this.setState({ logout: true });
+	}
 	printState(e) {
 		e.preventDefault();
 		console.log(this.state.input);
 	}
+	goToTweet(tweet) {
+		console.log("yeah");
+	}
 
 	render() {
+		if (this.state.isLoading) {
+			return <Loader />;
+		}
+		if (this.state.goHome) {
+			return (
+				<div>
+					<Loader />
+					<Navigate to="/" />
+				</div>
+			);
+		}
 		return (
 			<body data-theme={this.state.theme ? "light" : "dark"}>
 				<div className="main-div" data-theme={this.state.theme ? "light" : "dark"}>
+					{this.state.logout && <Navigate to="/logout" />}
+					{/* {this.state.goHome && <Navigate to="/login" />} */}
 					<Header
 						image={this.state.loggedInAs.image}
 						name={this.state.loggedInAs.name}
 						username={this.state.loggedInAs.username}
 						toggle={this.toggleTheme}
+						logout={this.logoutBox}
 					/>
 
 					<div className="content" data-theme={this.state.theme ? "light" : "dark"}>
 						<form className="search-form">
-							<button className="search-bttn" onClick={this.printState}>
-								<img className="search-img" src={this.state.theme ? searchGrey : searchBlue} />
-							</button>
+							<button className="search-bttn" onClick={this.printState}></button>
 							<input
 								type="search"
 								className="search-bar"
@@ -211,7 +237,7 @@ const TweetItem = ({ data, theme }) => {
 	var composer = { name, username, image };
 
 	return (
-		<div>
+		<div className="tweet-box">
 			<Tweet author={composer} tweet={data.text} permalink={data.url} theme={theme} />
 			{data.is_media && <MediaItem media={data.media_urls} />}
 		</div>
@@ -222,7 +248,7 @@ const Results = ({ data, hasData, theme }) => {
 	// console.log(data, hasData, "in results");
 	if (data.sent && !data.resolved) {
 		return (
-			<div style={{ textAlign: "center", opacity: "0.5" }}>
+			<div className="result-status">
 				<i>Loading results...</i>
 			</div>
 		);
@@ -230,14 +256,14 @@ const Results = ({ data, hasData, theme }) => {
 
 	if (!data.results && !data.sent) {
 		return (
-			<div style={{ textAlign: "center", opacity: "0.5" }}>
+			<div className="result-status">
 				<i>Enter keyword to search .</i>
 			</div>
 		);
 	}
-	if (!hasData) {
+	if (!hasData()) {
 		return (
-			<div style={{ textAlign: "center", opacity: "0.5" }}>
+			<div className="result-status">
 				<i>No results found.</i>
 			</div>
 		);

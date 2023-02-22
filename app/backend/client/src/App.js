@@ -7,30 +7,28 @@ import Callback from "./Components/Callback/callback";
 import Home from "./Components/home/Home";
 import Temp from "./Components/temp/Temp";
 import HTML404 from "./Components/html/404";
+import LogoutComponent from "./Components/logout/logout";
+import axios from "axios";
 import "./App.css";
 import "./App.scss";
-import axios from "axios";
-
-// let cookies = new Cookies();
-// let id = cookies.get("id");
-// let x = "2239624038";
+// replace with requre login component
 // let loggedIn;
-
-// // replace with requre login component
-// if (id) {
-// 	await axios({
-// 		method: "get",
-// 		url: "users/",
-// 		params: { id: x },
+// let userDetails = {};
+// await axios({
+// 	method: "get",
+// 	url: "users/",
+// })
+// 	.then((res) => {
+// 		console.log(res.data, "res");
+// 		loggedIn = res.data.boolean;
+// 		let { username, name, image } = res.data;
+// 		userDetails = {
+// 			username: username,
+// 			name: name,
+// 			image: image,
+// 		};
 // 	})
-// 		.then((res) => {
-// 			console.log(res.data, "res");
-// 			loggedIn = res.data.boolean;
-// 		})
-// 		.catch((err) => console.log(err));
-// } else {
-// 	loggedIn = false;
-// }
+// 	.catch((err) => console.log(err));
 
 // console.log(loggedIn, "logged  in as", id);
 class App extends Component {
@@ -39,10 +37,11 @@ class App extends Component {
 			<div>
 				{/* <HistoryRouter history={history}> */}
 				<Routes>
-					{/* <Route path="/" element={loggedIn ? <Home /> : <LoginComponent />} /> */}
-					{/* remove login url */}
 					<Route path="/home" element={<Home />} />
-					<Route path="/login" element={<LoginComponent />} />
+					{/* remove login url */}
+					<Route path="/" element={<LoginComponent />} />
+					{/* <Route path="/login" element={<LoginComponent />} /> */}
+					<Route path="/logout" element={<LogoutComponent />} />
 					<Route path="/authenticate" element={<Authenticate />} />
 					<Route path="/twitter_callback" element={<Callback />} />
 					<Route path="temp" element={<Temp />} />
