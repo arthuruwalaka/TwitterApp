@@ -22,6 +22,7 @@ code {
   --mode:"dark";
   --background: #15202B;
   --search-background: rgb(39, 51, 64);
+  --tweet-hover:rgb(174, 174, 174, 0.1);
   --text-primary: white;
   --check-circle: rgb(29, 155, 240);
   --border:#464C52;
@@ -34,6 +35,7 @@ code {
   --mode:"light";
   --background: white;
   --search-background:rgb(239, 243, 244);
+  --tweet-hover:rgba(72, 73, 77, 0.1);
   --text-primary: black;
   --check-circle: grey;
   --border : #AEAEAE;

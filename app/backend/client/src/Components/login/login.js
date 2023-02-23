@@ -29,6 +29,7 @@ class LoginComponent extends Component {
 				if (res.data.boolean) {
 					let loggedIn = res.data.boolean;
 					this.setState({ loggedIn });
+					this.setState({ isLoading: false });
 				} else {
 					this.setState({ isLoading: false });
 				}
@@ -47,7 +48,7 @@ class LoginComponent extends Component {
 			return (
 				<div>
 					<Loader />
-					<Navigate to="/home" />
+					<Navigate to="/home" replace={true} />
 				</div>
 			);
 		}

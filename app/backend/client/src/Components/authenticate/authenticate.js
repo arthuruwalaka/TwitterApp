@@ -16,13 +16,11 @@ class Authenticate extends Component {
 			url: "users/twitter_login/",
 		})
 			.then((res) => {
+				//go to get twitter verifier url
 				if (res.data.boolean) {
-					console.log("data fetched authenticate");
 					this.getCallBack(res.data.url);
 				} else {
-					//replace with toast
-					console.log("unable to login , authenticate");
-					console.log(res.data);
+					//replace with toast, unable to login
 					history.push("/login");
 				}
 			})
@@ -34,7 +32,6 @@ class Authenticate extends Component {
 	}
 
 	render() {
-		// console.log("rednder");
 		return (
 			<div>
 				<Loader />

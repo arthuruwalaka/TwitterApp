@@ -1,22 +1,27 @@
 import React, { Component } from "react";
-import { Toast } from "react-bootstrap";
-import searchBlue from "../images/search-blue.svg";
-import searchGrey from "../images/search-grey.svg";
-
+import Toast from "react-bootstrap/Toast";
+import ToastContainer from "react-bootstrap/ToastContainer";
 class Alert extends Component {
 	constructor(props) {
 		super(props);
+		console.log(this.props.showToast, "contstructor");
 	}
 
 	render() {
 		return (
-			<Toast className="d-inline-block m-1" bg={variant.toLowerCase()} key={idx}>
-				<Toast.Header>
-					<img src={searchBlue} className="rounded me-2" alt="" />
-					<strong className="me-auto">Search Bookmarks</strong>
-				</Toast.Header>
-				<Toast.Body className={variant === "Dark" && "text-white"}>Hello, world! This is a toast message.</Toast.Body>
-			</Toast>
+			<ToastContainer position={"bottom-center"} style={{ padding: "1em" }}>
+				<Toast
+					key={1}
+					bg={this.props.bg}
+					onClose={this.props.closeToast}
+					show={this.props.showToast}
+					delay={3000}
+					autohide
+				>
+					<Toast.Body>{this.props.message}</Toast.Body>
+				</Toast>
+			</ToastContainer>
 		);
 	}
 }
+export default Alert;

@@ -89,6 +89,7 @@ ul{
   height: 100%;
   overflow: hidden;
   overflow-y: scroll;
+  scrollbar-width: thin;
 }
 ul li{
   border-bottom: 1px solid var(--border);
@@ -98,7 +99,8 @@ ul li:first-child {
   border-top: 1px solid var(--border);
 }
 li:hover{
-  background: rgb(174, 174, 174, 0.1);
+  background: var(--tweet-hover);
+  cursor: pointer;
 }
 
 
@@ -143,6 +145,8 @@ li:hover{
 
 
 .result-status{
+  display: flex;
+  justify-content: center;
   text-align: center;
   opacity: 0.5;
   color: var(--text-primary);

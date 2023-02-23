@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { Route, Routes, unstable_HistoryRouter as HistoryRouter, BrowserRouter as Router } from "react-router-dom";
+import {
+	Route,
+	Routes,
+	unstable_HistoryRouter as HistoryRouter,
+	BrowserRouter as Router,
+	Navigate,
+} from "react-router-dom";
 // import myhistory from "./history/browserHistory";
 import LoginComponent from "./Components/login/Login";
 import Authenticate from "./Components/authenticate/Authenticate";
@@ -40,7 +46,7 @@ class App extends Component {
 					<Route path="/home" element={<Home />} />
 					{/* remove login url */}
 					<Route path="/" element={<LoginComponent />} />
-					{/* <Route path="/login" element={<LoginComponent />} /> */}
+					<Route path="/login" element={<LoginComponent />} />
 					<Route path="/logout" element={<LogoutComponent />} />
 					<Route path="/authenticate" element={<Authenticate />} />
 					<Route path="/twitter_callback" element={<Callback />} />

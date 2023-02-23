@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { ListGroup, ListGroupItem } from "react-bootstrap";
 import axios from "axios";
 import { Navigate, useLocation } from "react-router-dom";
+import Spinner from "react-bootstrap/Spinner";
+
 import "./home.scss";
 import "../../index.css";
 import searchBlue from "../images/search-blue.svg";
 import searchGrey from "../images/search-grey.svg";
+import Alert from "../utils/Alert";
 import Header from "../header/Header";
 import Loader from "../utils/Loader";
 import Tweet from "../tweet/Tweet";
@@ -24,8 +26,9 @@ class Home extends Component {
 			search: {},
 			theme: false,
 			logout: false,
-			goHome: false,
+			goBack: false,
 			isLoading: true,
+			showToast: false,
 		};
 		this.getBookmarks = this.getBookmarks.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -35,12 +38,19 @@ class Home extends Component {
 		this.hasData = this.hasData.bind(this);
 		this.clearSearchData = this.clearSearchData.bind(this);
 		this.toggleTheme = this.toggleTheme.bind(this);
-		this, (this.logoutBox = this.logoutBox.bind(this));
+		this.logoutBox = this.logoutBox.bind(this);
+		this.goToTweet = this.goToTweet.bind(this);
+		this.closeToast = this.closeToast.bind(this);
 
 		this.printState = this.printState.bind(this);
+		console.log(sessionStorage.getItem("loginSuccess"), "initiall", this.state.showToast);
 		// this.clearSearchData(true);
 	}
 	async componentDidMount() {
+		if (sessionStorage.getItem("loginSuccess") === "0") {
+			console.log("this is zerooo");
+		}
+		sessionStorage.setItem("loginSuccess", "0");
 		await axios({
 			method: "get",
 			url: "users/",
@@ -49,17 +59,18 @@ class Home extends Component {
 				console.log(res.data, "res in home");
 				if (res.data.boolean) {
 					let loggedIn = res.data.boolean;
-					let goHome = !loggedIn;
+					let goBack = !loggedIn;
 					let { username, name, image } = res.data;
 					let loggedInAs = {
 						username: username,
 						name: name,
 						image: image,
 					};
-					this.setState({ goHome, loggedInAs });
+					this.setState({ goBack, loggedInAs });
 					this.setState({ isLoading: false });
 				} else {
-					this.setState({ isLoading: false, goHome: true });
+					console.log("you are logged out");
+					this.setState({ isLoading: false, goBack: true });
 				}
 			})
 			.catch((err) => console.log(err));
@@ -166,18 +177,24 @@ class Home extends Component {
 		console.log(this.state.input);
 	}
 	goToTweet(tweet) {
-		console.log("yeah");
+		window.open(tweet);
+	}
+	closeToast() {
+		console.log("close toast");
+		sessionStorage.setItem("loginSuccess", "0");
+		this.setState({ showToast: false });
+		console.log(sessionStorage.getItem("loginSuccess"));
 	}
 
 	render() {
 		if (this.state.isLoading) {
 			return <Loader />;
 		}
-		if (this.state.goHome) {
+		if (this.state.goBack) {
 			return (
 				<div>
 					<Loader />
-					<Navigate to="/" />
+					<Navigate to="/login" replace={true} />
 				</div>
 			);
 		}
@@ -185,7 +202,6 @@ class Home extends Component {
 			<body data-theme={this.state.theme ? "light" : "dark"}>
 				<div className="main-div" data-theme={this.state.theme ? "light" : "dark"}>
 					{this.state.logout && <Navigate to="/logout" />}
-					{/* {this.state.goHome && <Navigate to="/login" />} */}
 					<Header
 						image={this.state.loggedInAs.image}
 						name={this.state.loggedInAs.name}
@@ -210,10 +226,17 @@ class Home extends Component {
 								data={this.state.search}
 								hasData={this.hasData}
 								theme={this.state.theme ? "light" : "dim"}
+								goToTweet={this.goToTweet}
 							></Results>
 						</ul>
 					</div>
 				</div>
+				<Alert
+					bg="success"
+					closeToast={this.closeToast}
+					showToast={this.state.showToast}
+					message="Succesful Login!"
+				></Alert>
 			</body>
 		);
 	}
@@ -244,13 +267,16 @@ const TweetItem = ({ data, theme }) => {
 	);
 };
 
-const Results = ({ data, hasData, theme }) => {
+const Results = ({ data, hasData, theme, goToTweet }) => {
 	// console.log(data, hasData, "in results");
 	if (data.sent && !data.resolved) {
 		return (
 			<div className="result-status">
-				<i>Loading results...</i>
+				<Spinner animation="border" variant="primary" size="sm" />
 			</div>
+			// <div className="result-status">
+			// 	<i>Loading results...</i>
+			// </div>
 		);
 	}
 
@@ -271,7 +297,7 @@ const Results = ({ data, hasData, theme }) => {
 	return (
 		<div>
 			{data.results.map((item, index) => (
-				<li key={index}>
+				<li key={index} onClick={() => goToTweet(item.url)}>
 					<TweetItem data={item} theme={theme} />
 				</li>
 				// <ListGroupItem disabled eventKey={index}>

@@ -45,7 +45,7 @@ class LogoutComponent extends Component {
 			<div className="logout-div" onClick={this.goHome}>
 				{this.state.isLoading && <Loader />}
 				{this.state.goHome && <Navigate to="/home" />}
-				{this.state.goBack && <Navigate to="/" replace={true} />}
+				{this.state.goBack && <Navigate to="/login" replace={true} />}
 				<div className="logout-card" onClick={this.doNothing}>
 					<p style={{ fontSize: "19px", fontWeight: "700" }}> Do you want to logout?</p>
 					<button className="logout-bttn" onClick={this.logout}>

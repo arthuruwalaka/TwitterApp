@@ -8,6 +8,7 @@ $dark-mode: #15202B;
     justify-content: space-between;
     flex-direction: row;
     background-color: var(--background);
+    height: 100px;
     padding: 1em;
     font-size: large;
     font-family: "myfont";
@@ -20,8 +21,12 @@ $dark-mode: #15202B;
 .name-div{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    height: 70%;
+    align-items: start;
+    justify-content: center;
+    overflow: hidden;
+    white-space: wrap;
+    text-overflow:ellipsis;
     margin: 5px;
     margin-top: 7px;
 }
@@ -40,8 +45,8 @@ $dark-mode: #15202B;
     display: flex;
     flex-direction: row;
     align-items: center;
+    height: 100%;
     justify-content: space-between;
-    //textoverflow elipses
     color: var(--text-primary);
     :hover{
         cursor: pointer;
