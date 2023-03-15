@@ -29,13 +29,12 @@ class LogoutComponent extends Component {
 		})
 			.then((res) => {
 				console.log(res, "logout");
-				// this.goHome();
 			})
 			.catch((err) => console.log(err));
 
 		this.goBack();
 	}
-
+	// clicking on logout div but not a button should do nothing
 	doNothing(e) {
 		e.stopPropagation();
 	}

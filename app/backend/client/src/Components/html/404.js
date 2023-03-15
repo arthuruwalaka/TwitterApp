@@ -3,10 +3,6 @@
  */
 import React, { Component } from "react";
 import "./404.css";
-// import { FlexboxGrid, Divider } from "rsuite";
-// // import "./startPage.css";
-// import history from "../../history";
-// import GlobalIcon from "@rsuite/icons/Global";
 
 class HTML404 extends Component {
 	constructor(props) {
@@ -15,15 +11,6 @@ class HTML404 extends Component {
 			...this.props.state,
 		};
 	}
-
-	// returnToHome() {
-	// 	history.push({
-	// 		pathname: "/",
-	// 		state: {
-	// 			data: this.state.data,
-	// 		},
-	// 	});
-	// }
 
 	render() {
 		return (

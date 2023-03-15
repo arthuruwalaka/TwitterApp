@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
 from twitter_api.twitter_api import TwitterAPI
 from .models import TwitterUser
 
@@ -35,11 +36,18 @@ def create_update_user_from_twitter(twitter_user_new):
             return None, twitter_user
 
 
+# check if access token is valid, app is still authorized by user
 def check_token_still_valid(twitter_user):
     twitter_api = TwitterAPI()
-    info = twitter_api.get_me(
-        twitter_user.twitter_access_token.access_token
-        # twitter_user.twitter_oauth_token.oauth_token,
-        # twitter_user.twitter_oauth_token.oauth_token_secret,
-    )
+    info = twitter_api.get_me(twitter_user.twitter_access_token.access_token)
     return info
+
+
+def twitter_login_required(request, twitter_user):
+
+    info = check_token_still_valid(twitter_user)
+    if info is None:
+        logout(request)
+        return False
+    else:
+        return True

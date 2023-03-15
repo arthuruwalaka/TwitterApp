@@ -4,7 +4,6 @@ import ToastContainer from "react-bootstrap/ToastContainer";
 class Alert extends Component {
 	constructor(props) {
 		super(props);
-		console.log(this.props.showToast, "contstructor");
 	}
 
 	render() {

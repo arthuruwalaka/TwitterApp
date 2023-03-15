@@ -69,13 +69,12 @@
   min-width: 4%;
   background-color: var(--search-background) ;
   border-top-left-radius: 10px;
-  padding-top: .25em;
-  padding-bottom: .25em;
   border-bottom-left-radius: 10px; 
   background-image: url("../images/search-grey.svg");
   background-size: 100% 75%;
   background-repeat: no-repeat;
   background-position: right;
+  margin-left: .3em;
 }
 .search-img{
   size: 100%;

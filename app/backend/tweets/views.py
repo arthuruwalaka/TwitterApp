@@ -11,18 +11,18 @@ from .tweets_helpers import *
 
 @api_view(["POST"])
 def index(request):
-    # id = request.POST.get("id")
     pass
 
 
+# checks if new bookmarks has been added, calls update if there are new bookmarks
+# view s called anytime home component is mounted
 @api_view(["GET", "POST"])
 def bookmarks(request):
-    user = TwitterUser.objects.prefetch_related("bookmarks").get(user=request.user)
+    user_id = request.session["userID"]
+    user = TwitterUser.objects.prefetch_related("bookmarks").get(id=user_id)
     first = get_first_bookmark(user)
     saved_first = user.first_bookmark
-
     if first == saved_first:
-        print("same booksssssss")
         return Response(data={"boolean": True, "message": "No new bookmarks"})
     else:
         update_bookmarks(user)
@@ -32,7 +32,6 @@ def bookmarks(request):
 @api_view(["GET"])
 def search(request):
     q = request.GET.get("q")
-    print(q, ">>>>>>>>>")
     twitter_user = TwitterUser.objects.prefetch_related("bookmarks").get(
         user=request.user
     )

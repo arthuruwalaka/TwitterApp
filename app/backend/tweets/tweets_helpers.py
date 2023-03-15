@@ -14,16 +14,9 @@ TWEET_LINK = "https://twitter.com/twitter/statuses/"
 
 def get_client(userId):
     try:
-        api = TwitterAPI()
-        # api.get_me()
         twitterUser = TwitterUser.objects.get(id=userId)
-        print(twitterUser, "ythis isd user")
         access_token = twitterUser.twitter_access_token.access_token
-        print(access_token, "this is acces token")
-        print(api.get_me(access_token), "get meeeee")
-        bearer = os.getenv("BEARER_TOKEN")
         client = tweepy.Client(access_token, wait_on_rate_limit=True)
-        print("client", client)
         return client
     except Exception as e:
         print(e)
@@ -35,22 +28,20 @@ def get_first_bookmark(user):
     id = user.id
     client = get_client(id)
     first_bookmark = client.get_bookmarks(max_results=1)
-    print(first_bookmark, "first_bookmakr")
     return str(first_bookmark.data[0]["id"])
 
 
+# returns a paginator for searching bookmarks
 def get_bookmarks(userId):
     client = get_client(userId)
-    bookmarks = []
     pa = tweepy.Paginator(
         client.get_bookmarks,
         expansions=["attachments.media_keys", "author_id"],
         media_fields=["url", "preview_image_url", "type"],
         user_fields=["name", "username", "profile_image_url", "protected", "verified"],
-        max_results=3,
+        max_results=5,
         limit=2,
     )
-    # bookmarks.append(f)
     return pa
 
 
@@ -59,8 +50,6 @@ def update_bookmarks(user):
     id = user.id
     bookmarks = get_bookmarks(id)
     first_bookmark = get_first_bookmark(user)
-    user.first_bookmark = first_bookmark
-    user.save(update_fields=["first_bookmark"])
     for page in bookmarks:
         data = page.data
         media = page.includes.get("media")
@@ -110,3 +99,5 @@ def update_bookmarks(user):
             else:
                 has_media = False
             user.bookmarks.add(new_tweet)
+    user.first_bookmark = first_bookmark
+    user.save(update_fields=["first_bookmark"])

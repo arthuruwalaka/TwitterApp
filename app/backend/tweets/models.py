@@ -23,6 +23,14 @@ class Tweets(models.Model):
     image = models.CharField(max_length=255)
     protected = models.BooleanField(default=False)
     verified = models.BooleanField(default=False)
+    created = models.DateTimeField(
+        auto_now_add=True, db_index=True, null=True, blank=True
+    )
+
+    class Meta:
+        ordering = [
+            "created",
+        ]
 
     def __str__(self) -> str:
         return self.text

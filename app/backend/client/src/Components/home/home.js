@@ -2,17 +2,14 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Navigate, useLocation } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
-
 import "./home.scss";
 import "../../index.css";
-import searchBlue from "../images/search-blue.svg";
-import searchGrey from "../images/search-grey.svg";
 import Alert from "../utils/Alert";
 import Header from "../header/Header";
 import Loader from "../utils/Loader";
 import Tweet from "../tweet/Tweet";
-import RequireLoginComponent from "../utils/requireLoginComponent";
 
+// main component, deals with search and displays results
 class Home extends Component {
 	constructor(props) {
 		super(props);
@@ -28,7 +25,11 @@ class Home extends Component {
 			logout: false,
 			goBack: false,
 			isLoading: true,
-			showToast: false,
+			toast: {
+				showToast: false,
+				bg: "",
+				message: "",
+			},
 		};
 		this.getBookmarks = this.getBookmarks.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -36,27 +37,18 @@ class Home extends Component {
 		this.trySearch = this.trySearch.bind(this);
 		this.handleResults = this.handleResults.bind(this);
 		this.hasData = this.hasData.bind(this);
-		this.clearSearchData = this.clearSearchData.bind(this);
 		this.toggleTheme = this.toggleTheme.bind(this);
 		this.logoutBox = this.logoutBox.bind(this);
 		this.goToTweet = this.goToTweet.bind(this);
 		this.closeToast = this.closeToast.bind(this);
-
-		this.printState = this.printState.bind(this);
-		console.log(sessionStorage.getItem("loginSuccess"), "initiall", this.state.showToast);
-		// this.clearSearchData(true);
 	}
+	// get user data, check if user is logged in, if not go back to login
 	async componentDidMount() {
-		if (sessionStorage.getItem("loginSuccess") === "0") {
-			console.log("this is zerooo");
-		}
-		sessionStorage.setItem("loginSuccess", "0");
 		await axios({
 			method: "get",
 			url: "users/",
 		})
 			.then((res) => {
-				console.log(res.data, "res in home");
 				if (res.data.boolean) {
 					let loggedIn = res.data.boolean;
 					let goBack = !loggedIn;
@@ -66,24 +58,34 @@ class Home extends Component {
 						name: name,
 						image: image,
 					};
-					this.setState({ goBack, loggedInAs });
+					this.setState({ goBack });
+					this.setState({ loggedInAs });
 					this.setState({ isLoading: false });
+					if (sessionStorage.getItem("loginSuccess") === "1") {
+						var toast = this.state.toast;
+						toast.showToast = true;
+						toast.bg = "success";
+						toast.message = "Login successful!";
+						this.setState({ toast });
+					}
 				} else {
-					console.log("you are logged out");
 					this.setState({ isLoading: false, goBack: true });
 				}
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				sessionStorage.setItem("error", "1");
+				this.setState({ isLoading: false, goBack: true });
+			});
+
 		await this.getBookmarks();
 	}
+	// makes sure backend adds new bookmarks if any
 	async getBookmarks() {
 		await axios({
 			method: "get",
 			url: "tweets/bookmarks/",
 		})
-			.then((res) => {
-				console.log(res, "get bookmarks");
-			})
+			.then((res) => {})
 			.catch((err) => console.log(err));
 	}
 
@@ -104,33 +106,16 @@ class Home extends Component {
 			search.resolved = true;
 			this.setState(search);
 		} else {
-			console.log("no dataaaa");
 			search.results = {};
 			search.resolved = true;
 			this.setState(search);
 		}
-		// this.setState(search);
 	}
 	hasData() {
-		console.log("has dats");
 		var search = this.state.search;
 		return search.results !== undefined && search.results.length > 0;
 	}
 
-	clearSearchData(refresh = true) {
-		console.log("clear seachw");
-
-		var search = this.state.search;
-
-		search.sent = false;
-		search.resolved = false;
-		search.interrupted = false;
-		search.rawResult = {};
-
-		if (refresh) {
-			this.setState(this.state.search);
-		}
-	}
 	async trySearch() {
 		var search = this.state.search;
 		var keyword = this.state.input;
@@ -139,7 +124,6 @@ class Home extends Component {
 		search.resolved = false;
 		this.setState(search);
 		if (keyword === "") {
-			console.log("nothing");
 			this.setState((prevState) => ({
 				...prevState,
 				search: {
@@ -155,15 +139,24 @@ class Home extends Component {
 			params: { q: keyword },
 		})
 			.then((res) => {
-				console.log(res.data, "dcsdcsdcsd");
 				this.handleResults(res.data);
 			})
 			.catch((err) => {
-				console.log(err);
+				var toast = this.state.toast;
+				toast.showToast = true;
+				toast.bg = "secondary";
+				toast.message = "Something went wrong :(";
+				this.setState({ toast });
+				this.setState((prevState) => ({
+					...prevState,
+					search: {
+						...prevState,
+						resolved: true,
+					},
+				}));
 			});
 	}
 	toggleTheme() {
-		console.log("yeah");
 		this.setState((prevState) => ({
 			theme: !prevState.theme,
 		}));
@@ -172,18 +165,15 @@ class Home extends Component {
 	logoutBox() {
 		this.setState({ logout: true });
 	}
-	printState(e) {
-		e.preventDefault();
-		console.log(this.state.input);
-	}
+	// make it work with twitter mobile app
 	goToTweet(tweet) {
 		window.open(tweet);
 	}
 	closeToast() {
-		console.log("close toast");
 		sessionStorage.setItem("loginSuccess", "0");
-		this.setState({ showToast: false });
-		console.log(sessionStorage.getItem("loginSuccess"));
+		var toast = this.state;
+		toast.showToast = false;
+		this.setState({ toast });
 	}
 
 	render() {
@@ -211,7 +201,7 @@ class Home extends Component {
 					/>
 
 					<div className="content" data-theme={this.state.theme ? "light" : "dark"}>
-						<form className="search-form">
+						<div className="search-form">
 							<button className="search-bttn" onClick={this.printState}></button>
 							<input
 								type="search"
@@ -220,7 +210,7 @@ class Home extends Component {
 								onChange={(e) => this.handleInputChange(e)}
 								onKeyUp={(e) => this.handleKeyUp(e)}
 							></input>
-						</form>
+						</div>
 						<ul>
 							<Results
 								data={this.state.search}
@@ -232,10 +222,10 @@ class Home extends Component {
 					</div>
 				</div>
 				<Alert
-					bg="success"
+					bg={this.state.toast.bg}
 					closeToast={this.closeToast}
-					showToast={this.state.showToast}
-					message="Succesful Login!"
+					showToast={this.state.toast.showToast}
+					message={this.state.toast.message}
 				></Alert>
 			</body>
 		);
@@ -254,7 +244,6 @@ const MediaItem = ({ media }) => {
 	);
 };
 const TweetItem = ({ data, theme }) => {
-	// console.log(data, ">>>>>>>>>>>>");
 	var { name, username, image } = data;
 
 	var composer = { name, username, image };
@@ -268,7 +257,6 @@ const TweetItem = ({ data, theme }) => {
 };
 
 const Results = ({ data, hasData, theme, goToTweet }) => {
-	// console.log(data, hasData, "in results");
 	if (data.sent && !data.resolved) {
 		return (
 			<div className="result-status">

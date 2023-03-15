@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./header.scss";
 import { BsLightbulbFill, BsLightbulbOffFill } from "react-icons/bs";
 
+// header with user profile and theme toggle,
 class Header extends Component {
 	constructor(props) {
 		super(props);

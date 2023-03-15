@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import TweetCard from "react-tweet-card";
-
 import "./tweet.scss";
 
+// individual tweet card
 class Tweet extends Component {
 	constructor(props) {
 		super(props);
