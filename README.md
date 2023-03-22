@@ -6,7 +6,7 @@ App has not been deployed yet. To run on local machine, follow these instructons
 
 ### 1. Clone the repo
 
-### 2. TwitterApp/app/backend/
+### 2. In TwitterApp/app/backend/
 	i.    Run: ‘virtualenv venv’
 	ii.   Run: (For Windows) venv\Scripts\activate.bat	(For Mac) source venv/bin/activate
 	iii.  Run: ‘pip install -r requirements.txt’
