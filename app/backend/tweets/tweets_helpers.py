@@ -39,8 +39,8 @@ def get_bookmarks(userId):
         expansions=["attachments.media_keys", "author_id"],
         media_fields=["url", "preview_image_url", "type"],
         user_fields=["name", "username", "profile_image_url", "protected", "verified"],
-        max_results=5,
-        limit=2,
+        max_results=1000,
+        limit=5,
     )
     return pa
 
