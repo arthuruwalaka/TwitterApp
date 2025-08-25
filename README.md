@@ -148,16 +148,4 @@ While the current Twitter API limitations prevent this app from working, the cod
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## 🤝 Contributing
-
-This is a portfolio project, but contributions and suggestions are welcome!
-
-## 📧 Contact
-
-- **Portfolio**: [Your Portfolio Link]
-- **LinkedIn**: [Your LinkedIn]
-- **GitHub**: [Your GitHub Profile]
-
----
-
 _Built with ❤️ and ☕ during the golden age of Twitter's developer-friendly API_
